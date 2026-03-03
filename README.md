@@ -1,5 +1,5 @@
 # Garmin GPS Activity × Park Boundaries
-This proof of concept Python project reads Garmin .fit files and checks them against Canadian provincial park boundaries to determine whether an activity took place within a specific park.
+This proof of concept (POC) Python project reads Garmin .fit files and checks them against Canadian provincial park boundaries to determine whether an activity took place within a specific park.
 
 This POC was the first step in a larger project:
 [Analyzing Recreational GPS Activity Within Park Boundaries Using Python and Geospatial Analytics](https://github.com/ITNurse/garmin_project)
