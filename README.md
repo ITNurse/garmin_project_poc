@@ -8,7 +8,7 @@ This POC was the first step in a larger project:
 
 ## The Question This POC Answers
 
-> *Can we reliably determine whether a recorded GPS activity took place inside a
+> *Can we reliably determine whether a recorded GPS activity from a Garmin smart watch took place inside a
 > specific Canadian provincial park, using only open data and Python?*
 
 ---
