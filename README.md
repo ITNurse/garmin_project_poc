@@ -2,7 +2,7 @@
 This proof of concept (POC) Python project reads Garmin .fit files and checks them against Canadian provincial park boundaries to determine whether an activity took place within a specific park.
 
 This POC was the first step in a larger project:
-[Analyzing Recreational GPS Activity Within Park Boundaries Using Python and Geospatial Analytics](https://github.com/ITNurse/garmin_project)
+[Analyzing Recreational GPS Activity Within Park Boundaries Using Python and Geospatial Analytics](https://github.com/ITNurse/garmin-activity-parkmap)
 
 ---
 
@@ -15,8 +15,8 @@ This POC was the first step in a larger project:
 
 ## What It Does
 
-1. Parses a `.fit` or `.gpx` GPS activity file
-2. Loads provincial park boundaries (GeoJSON, Shapefile, or WKT CSV)
+1. Parses a `.fit` Garmin GPS activity file
+2. Loads provincial park boundaries (GeoJSON format)
 3. Automatically adjusts the map settings so distance measurements are accurate in metres
 4. Reports what percentage of GPS points fall inside the park boundary (with and without a configurable buffer)
 5. Renders a map of the track overlaid on the park boundary and saves it as a PNG
@@ -27,17 +27,13 @@ This POC was the first step in a larger project:
 
 ```
 garmin_project_POC/
-├── data/
-│   └── sample_activity_ON.fit                      # Synthetic activity inside an Ontario provincial park
-│   └── sample_activity_NB.fit                      # Synthetic activity inside a New Brunswick provincial park
-├── parks/
-│   └── ontario_provincial_park_regulated.geojson   # Ontario provincial park boundaries (open data)
-│   └── nb_provincial_parks.geojson                 # New Brunswick provincial park boundaries (open data)
-├── outputs/                                        # Generated plots land here (gitignored)
+├── outputs/
+│   └── sample_activity_killarney_park__KILLARNEY_PROVINCIAL_PARK__WILDERNESS_CLASS_    # Generated plot
+├── ontario_provincial_park_regulated.geojson                                           # Ontario provincial park boundaries (open data)
+├── sample_activity_killarney_park.fit                                                  # Sample activity in killarney provincial park in Ontario
 ├── poc_visualize_track_in_park.py
 ├── requirements.txt
-├── README.md
-└── FINDINGS.md
+└── README.md
 ```
 
 ---
@@ -66,21 +62,21 @@ pip install -r requirements.txt
 
 ```bash
 # Basic — will prompt you to select a park interactively
-python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provincial_parks.geojson
+python poc_visualize_track_in_park.py sample_activity_killarney_park.fit ontario_provincial_park_regulated.geojson
 
 # Specify the park directly
-python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provincial_parks.geojson --park "Frontenac"
+python poc_visualize_track_in_park.py sample_activity_killarney_park.fit ontario_provincial_park_regulated.geojson --park "KILLARNEY PROVINCIAL PARK (WILDERNESS CLASS)"
 
 # Adjust buffer and threshold, skip interactive window
-python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provincial_parks.geojson --park "Frontenac" --buffer 100 --threshold 90 --no-show
+python poc_visualize_track_in_park.py sample_activity_killarney_park.fit ontario_provincial_park_regulated.geojson --park "KILLARNEY PROVINCIAL PARK (WILDERNESS CLASS)" --buffer 100 --threshold 90 --no-show
 ```
 
 ### All options
 
 | Argument | Default | Description |
 |---|---|---|
-| `track` | *(required)* | Path to `.fit` or `.gpx` activity file |
-| `parks` | *(required)* | Path to park boundaries (`.geojson`, `.shp`, or `.csv`) |
+| `track` | *(required)* | Path to `.fit` activity file |
+| `parks` | *(required)* | Path to park boundaries (`.geojson`) |
 | `--park` | *(prompts)* | Park name — partial, case-insensitive match |
 | `--name-field` | auto-detected | Column containing park names |
 | `--buffer` | `50` | Buffer distance in metres |
@@ -93,7 +89,7 @@ python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provinci
 ## Sample Output
 
 <!-- Replace the line below with your actual output PNG once generated -->
-![Sample output map](outputs/20240728__KILLARNEY_PROVINCIAL_PARK__WILDERNESS_CLASS_.png)
+![Sample output map](outputs/sample_activity_killarney_park__KILLARNEY_PROVINCIAL_PARK__WILDERNESS_CLASS_.png)
 
 *Green points = inside park boundary. Red points = outside. Yellow line = park boundary.*
 
@@ -104,9 +100,7 @@ python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provinci
 | File | Source |
 |---|---|
 | `ontario_provincial_park_regulated.geojson` | [Ontario GeoHub — Provincial Parks (Regulated)](https://geohub.lio.gov.on.ca/datasets/c5191fcd8a944eaf91920b4ed914825a_4/) |
-| `nb_provincial_parks.csv` | [New Brunswick Open Data — Provincial Parks / Parcs provinciaux](https://gnb.socrata.com/GeoNB/Provincial-Parks-Parcs-provinciaux/ixbz-22zx) |
-| `sample_activity_ON.fit` | Synthetic GPS activity located within Ontario's Killarney Provincial Park |
-| `sample_activity_NB.fit` | Synthetic GPS activity located within New Brunswick's Mactaquac Provincial Park |
+| `sample_activity_killarney_park.fit` | Synthetic GPS activity located within Ontario's Killarney Provincial Park |
 
 ---
 
@@ -125,4 +119,4 @@ python poc_visualize_track_in_park.py data/sample_activity.fit parks/on_provinci
 ## Related Project
 
 This POC validated the core spatial logic used in the full pipeline:
-[garmin_project — full repo link here](https://github.com/ITNurse/garmin_project)
+[garmin_project — full repo link here](https://github.com/ITNurse/garmin-activity-parkmap)
